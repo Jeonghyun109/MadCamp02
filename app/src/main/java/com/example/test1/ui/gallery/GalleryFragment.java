@@ -16,20 +16,73 @@ import com.example.test1.R;
 
 public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
+
+//    /**
+//     * Upload Image Client Code
+//     */
+//    private void uploadImage() {
+//
+//        /**
+//         * Progressbar to Display if you need
+//         */
+//        final ProgressDialog progressDialog;
+//        progressDialog = new ProgressDialog(MainActivity.this);
+//        progressDialog.setMessage(getString(R.string.string_title_upload_progressbar_));
+//        progressDialog.show();
+//
+//        //Create Upload Server Client
+//        ApiService service = RetroClient.getApiService();
+//
+//        //File creating from selected URL
+//        File file = new File(imagePath);
+//
+//        // create RequestBody instance from file
+//        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//
+//        MultipartBody.Part body =
+//                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
+//
+//        Call<Result> resultCall = service.uploadImage(body);
+//
+//        resultCall.enqueue(new Callback<Result>() {
+//            @Override
+//            public void onResponse(Call<Result> call, Response<Result> response) {
+//
+//                progressDialog.dismiss();
+//
+//                // Response Success or Fail
+//                if (response.isSuccessful()) {
+//                    if (response.body().getResult().equals("success"))
+//                        Snackbar.make(parentView, R.string.string_upload_success, Snackbar.LENGTH_LONG).show();
+//                    else
+//                        Snackbar.make(parentView, R.string.string_upload_fail, Snackbar.LENGTH_LONG).show();
+//
+//                } else {
+//                    Snackbar.make(parentView, R.string.string_upload_fail, Snackbar.LENGTH_LONG).show();
+//                }
+//
+//                /**
+//                 * Update Views
+//                 */
+//                imagePath = "";
+//                textView.setVisibility(View.VISIBLE);
+//                imageView.setVisibility(View.INVISIBLE);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Result> call, Throwable t) {
+//                progressDialog.dismiss();
+//            }
+//        });
+//    }
+
 }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 
+import com.example.test1.ui.Data.UserResponse;
 import com.example.test1.ui.LoginCallback;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
@@ -197,6 +198,9 @@ public class LoginActivity extends Activity {
 
         if (resultCode == -1) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            UserResponse result2 = new LoginCallback().requestMe();
+            intent.putExtra("Useremail", result2.getEmail());
+            intent.putExtra("Username", result2.getName());
             startActivity(intent);
         }
         if (resultCode == 0) {
