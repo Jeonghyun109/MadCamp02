@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int id = ((JHJApplication)this.getApplication()).getData();
+        Log.v("창수오빠",String.valueOf(id));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);

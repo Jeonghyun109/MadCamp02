@@ -221,6 +221,9 @@ public class LoginActivity extends Activity {
 
         if (resultCode == -1) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            UserResponse result2 = new LoginCallback().requestMe();
+            intent.putExtra("Useremail", result2.getEmail());
+            intent.putExtra("Username", result2.getName());
             startActivity(intent);
         }
         if (resultCode == 0) {
