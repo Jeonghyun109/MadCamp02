@@ -1,30 +1,31 @@
 package com.example.test1;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.example.test1.ui.Data.UserResponse;
 import com.example.test1.ui.LoginCallback;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
 import com.example.test1.ui.Data.LoginData;
 import com.example.test1.ui.Data.LoginResponse;
+
+import com.example.test1.ui.Data.JoinData;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.se.omapi.Session;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
@@ -34,6 +35,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -53,6 +65,8 @@ public class LoginActivity extends Activity {
     private Button btn_custom_logout;
     private LoginCallback mLoginCallback;
     private CallbackManager mCallbackManager;
+    private String resultemail;
+    private String resultname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +87,10 @@ public class LoginActivity extends Activity {
             }
         });
 
-        btn_custom_logout = (Button) findViewById(R.id.btn_custom_logout);
         btn_custom_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager ologinManager = LoginManager.getInstance();
+//                LoginManager ologinManager = LoginManager.getInstance();
                 disconnectFromFacebook();
 //                ologinManager.logOut();
 
@@ -102,7 +115,6 @@ public class LoginActivity extends Activity {
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("hey","I'm here");
                 Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
                 startActivity(intent);
             }
@@ -155,13 +167,27 @@ public class LoginActivity extends Activity {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
                 LoginResponse result = response.body();
-                Log.v("나다",result.toString());
                 Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                ServiceApi mservice = RetrofitClient.getClient().create(ServiceApi.class);
+                mservice.userUser(data).enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        UserResponse result2 = response.body();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("Useremail", result2.getEmail());
+                        intent.putExtra("Username", result2.getName());
+                        startActivity(intent);
+
+                    }
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("이거 또 틀렸대",t.getMessage());
+                    }
+                });
             }
 
             @Override
@@ -201,6 +227,7 @@ public class LoginActivity extends Activity {
         }
         if (resultCode == 0) {
             btn_custom_logout.setVisibility(View.VISIBLE);
+            disconnectFromFacebook();
         }
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -211,15 +238,16 @@ public class LoginActivity extends Activity {
         if (AccessToken.getCurrentAccessToken() == null) {
             return; // already logged out
         }
-
         new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
                 .Callback() {
             @Override
             public void onCompleted(GraphResponse graphResponse) {
-
-                LoginManager.getInstance().logOut();
-
+                ///
+                FacebookSdk.sdkInitialize(getApplicationContext());
+                LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_ONLY);
+                ///
             }
         }).executeAsync();
     }
+
 }

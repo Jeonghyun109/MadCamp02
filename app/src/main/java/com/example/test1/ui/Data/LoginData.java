@@ -9,6 +9,23 @@ public class LoginData {
     @SerializedName("userPwd")
     String userPwd;
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPwd() {
+        return userPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
+    }
+
+
     public LoginData(String userEmail, String userPwd) {
         this.userEmail = userEmail;
         this.userPwd = userPwd;
