@@ -24,4 +24,7 @@ public interface ServiceApi {
 
     @POST("/user/get")
     Call<UserResponse> userUser(@Body LoginData data);
+
+    @POST("/user/logout")
+    Call<LoginResponse> userLogout();
 }

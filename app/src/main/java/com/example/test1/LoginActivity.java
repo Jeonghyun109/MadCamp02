@@ -65,8 +65,6 @@ public class LoginActivity extends Activity {
     private Button btn_custom_logout;
     private LoginCallback mLoginCallback;
     private CallbackManager mCallbackManager;
-    private String resultemail;
-    private String resultname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
