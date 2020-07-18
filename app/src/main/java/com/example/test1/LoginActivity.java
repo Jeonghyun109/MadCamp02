@@ -156,11 +156,11 @@ public class LoginActivity extends Activity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse result = response.body();
-                Log.v("나다",result.toString());
                 Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("id", result.getUserId());
                 startActivity(intent);
             }
 

@@ -103,7 +103,9 @@ public class JoinActivity extends Activity {
         }
 
         String str = name + email;
-        Log.v(str, password );
+        Log.v("aaa", password );
+        Log.v("bbb", name );
+        Log.v("ccc", email );
     }
 
     private void startJoin(JoinData data) {
