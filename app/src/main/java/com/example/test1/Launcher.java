@@ -29,6 +29,7 @@ public class Launcher extends Activity {
             Manifest.permission.INTERNET
     };
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.loading);
