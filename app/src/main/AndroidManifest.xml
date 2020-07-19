@@ -63,6 +63,7 @@
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.gallery.PopupImg"/>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
