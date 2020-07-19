@@ -10,13 +10,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
-public class Launcher extends Activity {
+public class Launcher extends AppCompatActivity {
 
     private static final int REQUEST_EXIT = 1;
     private static final int PERMISSIONS_REQUEST_CODE = 1240;
@@ -24,11 +27,10 @@ public class Launcher extends Activity {
     static private Intent intent;
 
     String[] appPermissions = {
-            Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET,
-        Manifest.permission.CAMERA,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
 
@@ -36,16 +38,25 @@ public class Launcher extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.loading);
         super.onCreate(savedInstanceState);
-        if (checkAndRequestPermissions())
-            intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        /* Start MainActivity */
+//        if (checkAndRequestPermissions()) {
+//            Log.v("야","야");
+//            intent = new Intent(getApplicationContext(), LoginActivity.class);
+//            Log.v("야", String.valueOf(intent));
+//            startActivity(intent);
+//        }
     }
 
     @Override
     protected void onResume() {
         setContentView(R.layout.loading);
         super.onResume();
+        if (checkAndRequestPermissions()) {
+            Log.v("야","야");
+            intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Log.v("야", String.valueOf(intent));
+            startActivity(intent);
+        }
+
     }
     private boolean checkAndRequestPermissions(){
         List<String> listPermissionsNeeded = new ArrayList<>();
