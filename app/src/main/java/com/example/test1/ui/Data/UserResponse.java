@@ -9,11 +9,18 @@ public class UserResponse {
     @SerializedName("email")
     private String email;
 
+    @SerializedName("id")
+    private int id;
+
     public String getName() {
         return name;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public int getID() {
+        return id;
     }
 }

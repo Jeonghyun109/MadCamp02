@@ -2,6 +2,9 @@ package com.example.test1.ui.Data;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ContactResponse {
     @SerializedName("code")
     private int code;
@@ -21,6 +24,9 @@ public class ContactResponse {
     @SerializedName("id")
     private int id;
 
+    @SerializedName("json")
+    private String json;
+
     public int getCode() {
         return code;
     }
@@ -36,4 +42,6 @@ public class ContactResponse {
     public String getEmail() { return email; }
 
     public int getID() { return id; }
+
+    public String getJson() { return json; }
 }

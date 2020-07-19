@@ -35,4 +35,6 @@ public class ContactInfo {
         this.phNumber = phNumber;
         this.email = email;
     }
+
+    public ContactInfo(){}
 }

@@ -11,17 +11,10 @@ tools:context=".ui.contact.ContactFragment">
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="검색"/>
-
         <Button
             android:id="@+id/go_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="ADD"
             android:textStyle="bold"
             tools:ignore="MissingConstraints" />
@@ -45,7 +38,5 @@ tools:context=".ui.contact.ContactFragment">
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

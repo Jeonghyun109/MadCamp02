@@ -16,9 +16,11 @@ import com.example.test1.ui.Data.LoginData;
 import com.example.test1.ui.Data.LoginResponse;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 
 import androidx.annotation.Nullable;
@@ -160,9 +162,23 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("id", result.getUserId());
-                startActivity(intent);
+                ServiceApi mservice = RetrofitClient.getClient().create(ServiceApi.class);
+                mservice.userUser(data).enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        UserResponse result2 = response.body();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("UserID", result2.getID());
+                        intent.putExtra("Useremail", result2.getEmail());
+                        intent.putExtra("Username", result2.getName());
+                        startActivity(intent);
+
+                    }
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        Log.e("이거 또 틀렸대",t.getMessage());
+                    }
+                });
             }
 
             @Override
@@ -198,13 +214,14 @@ public class LoginActivity extends Activity {
 
         if (resultCode == -1) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            UserResponse result2 = new LoginCallback().requestMe();
-            intent.putExtra("Useremail", result2.getEmail());
-            intent.putExtra("Username", result2.getName());
+//            UserResponse result2 = new LoginCallback().requestMe();
+//            intent.putExtra("Useremail", result2.getEmail());
+//            intent.putExtra("Username", result2.getName());
             startActivity(intent);
         }
         if (resultCode == 0) {
             btn_custom_logout.setVisibility(View.VISIBLE);
+            disconnectFromFacebook();
         }
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -221,7 +238,10 @@ public class LoginActivity extends Activity {
             @Override
             public void onCompleted(GraphResponse graphResponse) {
 
-                LoginManager.getInstance().logOut();
+                ///
+                FacebookSdk.sdkInitialize(getApplicationContext());
+                LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_ONLY);
+                ///
 
             }
         }).executeAsync();

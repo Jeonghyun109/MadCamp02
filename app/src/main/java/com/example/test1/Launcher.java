@@ -21,7 +21,7 @@ public class Launcher extends Activity {
     private static final int REQUEST_EXIT = 1;
     private static final int PERMISSIONS_REQUEST_CODE = 1240;
 
-    Intent intent;
+    static private Intent intent;
 
     String[] appPermissions = {
             Manifest.permission.READ_CONTACTS,
@@ -37,8 +37,6 @@ public class Launcher extends Activity {
             intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         /* Start MainActivity */
-
-
     }
 
     @Override
@@ -46,7 +44,6 @@ public class Launcher extends Activity {
         setContentView(R.layout.loading);
         super.onResume();
     }
-
     private boolean checkAndRequestPermissions(){
         List<String> listPermissionsNeeded = new ArrayList<>();
         for (String perm : appPermissions){

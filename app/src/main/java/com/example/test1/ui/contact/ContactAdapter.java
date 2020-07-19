@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import com.example.test1.R;
 import java.util.ArrayList;
 
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomViewHolder> {
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
 
     private ArrayList<ContactInfo> mList;
     private Context context;
@@ -26,11 +27,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         this.mList = list;
     }
     /* CustomViewHolder constructed with textViews */
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class ContactViewHolder extends RecyclerView.ViewHolder {
         protected TextView name;
         protected TextView phnumber;
 
-        public CustomViewHolder(View view) {
+        public ContactViewHolder(View view) {
             super(view);
 
 //            view.setOnClickListener(new View.OnClickListener() {
@@ -58,25 +59,27 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     /* Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type
      * to represent an item. */
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.contact_list, viewGroup, false);
 
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
+        ContactViewHolder viewHolder = new ContactViewHolder(view);
 
         return viewHolder;
     }
 
     /* Called when notifyItemChanged */
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull ContactViewHolder viewholder, int position) {
         ContactInfo data = mList.get(position);
         viewholder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         viewholder.phnumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 
         viewholder.name.setGravity(Gravity.LEFT);
         viewholder.phnumber.setGravity(Gravity.LEFT);
+
+        Log.v("이름",data.getName());
 
         viewholder.name.setText(data.getName());
         viewholder.phnumber.setText(data.getPhNumber());

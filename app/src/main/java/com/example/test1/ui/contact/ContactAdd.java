@@ -19,7 +19,6 @@ import com.example.test1.ui.Data.ContactData;
 import com.example.test1.ui.Data.ContactResponse;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
-import com.example.test1.ui.gallery.GalleryViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +31,6 @@ public class ContactAdd extends Activity {
 
     private ServiceApi service;
     private Context mContext;
-
-    private GalleryViewModel contactViewModel;
     private Button add;
 
     @Override
@@ -118,8 +115,7 @@ public class ContactAdd extends Activity {
                 ContactResponse result = response.body();
                 Toast.makeText(ContactAdd.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                finish();
             }
 
             @Override
