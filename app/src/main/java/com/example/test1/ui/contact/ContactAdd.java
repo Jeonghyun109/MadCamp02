@@ -17,6 +17,7 @@ import com.example.test1.MainActivity;
 import com.example.test1.R;
 import com.example.test1.ui.Data.ContactData;
 import com.example.test1.ui.Data.ContactResponse;
+import com.example.test1.ui.Data.UserResponse;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
 
@@ -109,17 +110,32 @@ public class ContactAdd extends Activity {
     }
 
     private void addContact(ContactData data) {
-        service.contactAdd(data).enqueue(new Callback<ContactResponse>() {
+        service.addCheck(data).enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {
-                ContactResponse result = response.body();
-                Toast.makeText(ContactAdd.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-                finish();
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                UserResponse result1 = response.body();
+                if(result1.getResult()==1){
+                    ServiceApi mservice = RetrofitClient.getClient().create(ServiceApi.class);
+                    mservice.contactAdd(data).enqueue(new Callback<ContactResponse>() {
+                        @Override
+                        public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {
+                            ContactResponse result2 = response.body();
+                            Toast.makeText(ContactAdd.this, result2.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onFailure(Call<ContactResponse> call, Throwable t) {
+                            Toast.makeText(ContactAdd.this, "연락처 추가 에러 발생", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+                else{
+                    Toast.makeText(ContactAdd.this, "존재하지 않는 사용자 입니다.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<ContactResponse> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Toast.makeText(ContactAdd.this, "연락처 추가 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });

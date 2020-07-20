@@ -3,6 +3,7 @@ package com.example.test1;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.example.test1.ui.Data.UserResponse;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
 import com.example.test1.ui.Data.JoinData;
@@ -109,24 +110,36 @@ public class JoinActivity extends Activity {
     }
 
     private void startJoin(JoinData data) {
-        service.userJoin(data).enqueue(new Callback<JoinResponse>() {
+        service.joinCheck(data).enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
-                JoinResponse result = response.body();
-                Toast.makeText(JoinActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-                showProgress(false);
-                if (result.getCode() == 200) {
-                    finish();
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                UserResponse result = response.body();
+                if(result.getResult()==1){
+                    service.userJoin(data).enqueue(new Callback<JoinResponse>() {
+                        @Override
+                        public void onResponse(Call<JoinResponse> call, Response<JoinResponse> response) {
+                            JoinResponse result = response.body();
+                            Toast.makeText(JoinActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                            if (result.getCode() == 200) {
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JoinResponse> call, Throwable t) {
+                            Toast.makeText(JoinActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(JoinActivity.this, "이미 존재하는 닉네임 입니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<JoinResponse> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Toast.makeText(JoinActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
-                Log.e("회원가입 에러 발생", t.getMessage());
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
-                t.printStackTrace(); // 에러 발생시 에러 발생 원인 단계별로 출력해줌
-                showProgress(false);
             }
         });
     }

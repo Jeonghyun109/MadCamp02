@@ -25,4 +25,8 @@ public class ContactData {
     public ContactData(int userID) {
         this.userID=userID;
     }
+
+    public ContactData(String userPhone) {
+        this.userPhone=userPhone;
+    }
 }

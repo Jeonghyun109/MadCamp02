@@ -12,6 +12,9 @@ public class UserResponse {
     @SerializedName("id")
     private int id;
 
+    @SerializedName("result")
+    private int result;
+
     public String getName() {
         return name;
     }
@@ -23,4 +26,6 @@ public class UserResponse {
     public int getID() {
         return id;
     }
+
+    public int getResult() { return result; }
 }

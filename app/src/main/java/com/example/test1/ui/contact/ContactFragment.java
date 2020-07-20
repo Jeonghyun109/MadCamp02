@@ -155,7 +155,7 @@ public class ContactFragment extends Fragment {
             public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {
                 ContactResponse result = response.body();
                 String nj="{\"Contact\":"+result.getJson()+"}";
-                mAdapter = new ContactAdapter(context,mArrayList);
+                mAdapter = new ContactAdapter(context,mArrayList,ContactFragment.this);
                 mRecyclerView.setAdapter(mAdapter);
                 jsonParsing(nj);
             }

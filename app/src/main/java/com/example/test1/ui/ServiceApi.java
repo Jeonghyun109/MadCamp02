@@ -30,8 +30,17 @@ public interface ServiceApi {
     @POST("/contact/add")
     Call<ContactResponse> contactAdd(@Body ContactData data);
 
+    @POST("/contact/delete")
+    Call<ContactResponse> contactDelete(@Body ContactData data);
+
     @POST("/user/get")
     Call<UserResponse> userUser(@Body LoginData data);
+
+    @POST("/check/add")
+    Call<UserResponse> addCheck(@Body ContactData data);
+
+    @POST("/check/join")
+    Call<UserResponse> joinCheck(@Body JoinData data);
 
     @POST("/user/logout")
     Call<LoginResponse> userLogout();
