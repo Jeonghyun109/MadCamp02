@@ -33,7 +33,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.test1.JHJApplication;
 import com.example.test1.R;
+import com.example.test1.ui.Data.ContactData;
+import com.example.test1.ui.Data.ContactResponse;
+import com.example.test1.ui.Data.GalleryData;
+import com.example.test1.ui.Data.GalleryResponse;
+import com.example.test1.ui.RetrofitClient;
+import com.example.test1.ui.ServiceApi;
+import com.example.test1.ui.contact.ContactAdapter;
+import com.example.test1.ui.contact.ContactAdd;
+import com.example.test1.ui.contact.ContactFragment;
+import com.example.test1.ui.contact.ContactInfo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +60,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GalleryFragment extends Fragment {
     private ArrayList<String> mArrayList = new ArrayList<String>();
     private ImageAdapter mAdapter;
@@ -55,6 +74,9 @@ public class GalleryFragment extends Fragment {
     private static final int MEDIA_TYPE_IMAGE = 1;
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private Camera mCamera;
+    private int id;
+    private ServiceApi service;
+    private ServiceApi mservice;
     String mCurrentPhotoPath;
     ImageView img;
     Uri imageUri;
@@ -68,9 +90,12 @@ public class GalleryFragment extends Fragment {
         context = getActivity();
 
         mArrayList = new ArrayList<>();
-        mAdapter = new ImageAdapter(context,mArrayList);
+        mAdapter = new ImageAdapter(context,mArrayList, GalleryFragment.this);
 
         contentResolver = context.getContentResolver();
+
+        id = ((JHJApplication)this.getActivity().getApplication()).getId();
+        showGallery(new GalleryData(id));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -88,7 +113,7 @@ public class GalleryFragment extends Fragment {
 
         mArrayList = new ArrayList<>();
 
-        mAdapter = new ImageAdapter(context,mArrayList);
+        mAdapter = new ImageAdapter(context,mArrayList, GalleryFragment.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
@@ -96,7 +121,7 @@ public class GalleryFragment extends Fragment {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAdapter.notifyDataSetChanged();
+                showGallery(new GalleryData(id));
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -107,6 +132,8 @@ public class GalleryFragment extends Fragment {
                 captureCamera();
             }
         });
+
+        showGallery(new GalleryData(id));
 
         return root;
     }
@@ -141,12 +168,55 @@ public class GalleryFragment extends Fragment {
 
         Uri uri = getImageContentUri(context,f);
         if (uri != null) {
-
-            mArrayList.add(String.valueOf(getImageContentUri(context,f)));
-            mAdapter.notifyDataSetChanged();
+            //db add + upload
+            id = ((JHJApplication)this.getActivity().getApplication()).getId();
+//            Log.d("nnnn", String.valueOf(id));
+            addGallery(new GalleryData(id, String.valueOf(uri)));
         }
         Toast.makeText(context, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
     }
+
+    private void showGallery(GalleryData data) {
+//        mArrayList.clear();
+//        Log.d("nnnn", String.valueOf(data.getID()));
+        service = RetrofitClient.getClient().create(ServiceApi.class);
+        service.photo(data).enqueue(new Callback<GalleryResponse>() {
+            @Override
+            public void onResponse(Call<GalleryResponse> call, Response<GalleryResponse> response) {
+                GalleryResponse result = response.body();
+                Log.d("nnnn", String.valueOf(result));
+                String nj="{\"Gallery\":"+result.getURI()+"}";
+                mAdapter = new ImageAdapter(context, mArrayList, GalleryFragment.this);
+                mRecyclerView.setAdapter(mAdapter);
+                saveURI(nj);
+            }
+
+            @Override
+            public void onFailure(Call<GalleryResponse> call, Throwable t) {
+                Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+            }
+        });
+    }
+
+    private void addGallery(GalleryData data) {
+//        Log.d("nnnn", String.valueOf(data.getID()));
+        mservice = RetrofitClient.getClient().create(ServiceApi.class);
+        mservice.photoAdd(data).enqueue(new Callback<GalleryResponse>() {
+            @Override
+            public void onResponse(Call<GalleryResponse> call, Response<GalleryResponse> response) {
+                GalleryResponse result2 = response.body();
+//                Log.d("nnnn", String.valueOf(result2));
+                Toast.makeText(getActivity(), result2.getMessage(), Toast.LENGTH_SHORT).show();
+                showGallery(new GalleryData(data.getID()));
+            }
+
+            @Override
+            public void onFailure(Call<GalleryResponse> call, Throwable t) {
+                Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+            }
+        });
+    }
+
     public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -248,63 +318,27 @@ public class GalleryFragment extends Fragment {
             }
         }
     }
-//    /**
-//     * Upload Image Client Code
-//     */
-//    private void uploadImage() {
-//
-//        /**
-//         * Progressbar to Display if you need
-//         */
-//        final ProgressDialog progressDialog;
-//        progressDialog = new ProgressDialog(MainActivity.this);
-//        progressDialog.setMessage(getString(R.string.string_title_upload_progressbar_));
-//        progressDialog.show();
-//
-//        //Create Upload Server Client
-//        ApiService service = RetroClient.getApiService();
-//
-//        //File creating from selected URL
-//        File file = new File(imagePath);
-//
-//        // create RequestBody instance from file
-//        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//
-//        MultipartBody.Part body =
-//                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
-//
-//        Call<Result> resultCall = service.uploadImage(body);
-//
-//        resultCall.enqueue(new Callback<Result>() {
-//            @Override
-//            public void onResponse(Call<Result> call, Response<Result> response) {
-//
-//                progressDialog.dismiss();
-//
-//                // Response Success or Fail
-//                if (response.isSuccessful()) {
-//                    if (response.body().getResult().equals("success"))
-//                        Snackbar.make(parentView, R.string.string_upload_success, Snackbar.LENGTH_LONG).show();
-//                    else
-//                        Snackbar.make(parentView, R.string.string_upload_fail, Snackbar.LENGTH_LONG).show();
-//
-//                } else {
-//                    Snackbar.make(parentView, R.string.string_upload_fail, Snackbar.LENGTH_LONG).show();
-//                }
-//
-//                /**
-//                 * Update Views
-//                 */
-//                imagePath = "";
-//                textView.setVisibility(View.VISIBLE);
-//                imageView.setVisibility(View.INVISIBLE);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Result> call, Throwable t) {
-//                progressDialog.dismiss();
-//            }
-//        });
-//    }
 
+    public void saveURI(String json){
+        mArrayList.clear();
+        try{
+            JSONObject jobj=new JSONObject(json);
+            JSONArray jarray=jobj.getJSONArray("Gallery");
+
+            Log.d("제이슨",String.valueOf(jarray.length()));
+
+            for(int i=0; i<jarray.length(); i++){
+                JSONObject pobj=jarray.getJSONObject(i);
+                Log.d("qqqqqqqqqq", pobj.toString());
+                String c=pobj.getString("URI");
+
+                mArrayList.add(c);
+                Log.d("qqqqqqqqqq", pobj.getString("URI"));
+                Log.d("qqqqqqqqqq", String.valueOf(mArrayList.size()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mAdapter.notifyDataSetChanged();
+    }
 }

@@ -2,6 +2,8 @@ package com.example.test1.ui;
 
 import com.example.test1.ui.Data.ContactData;
 import com.example.test1.ui.Data.ContactResponse;
+import com.example.test1.ui.Data.GalleryData;
+import com.example.test1.ui.Data.GalleryResponse;
 import com.example.test1.ui.Data.ImgResponse;
 import com.example.test1.ui.Data.JoinData;
 import com.example.test1.ui.Data.JoinResponse;
@@ -10,6 +12,8 @@ import com.example.test1.ui.Data.LoginResponse;
 import com.example.test1.ui.Data.UserResponse;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -45,10 +49,14 @@ public interface ServiceApi {
     @POST("/user/logout")
     Call<LoginResponse> userLogout();
 
-    @Multipart
-    @POST("/user/upload_img")
-    Call<ImgResponse> UploadImg(@Header("accessToken") String header, @Part MultipartBody.Part imageFile);
+    @POST("/photo/add")
+    Call<GalleryResponse> photoAdd(@Body GalleryData data);
 
+    @POST("/photo/delete")
+    Call<GalleryResponse> photoDelete(@Body GalleryData data);
+
+    @POST("/photo")
+    Call<GalleryResponse> photo(@Body GalleryData data);
 }
 //    public void uploadImage(File file) {
 //        // create multipart

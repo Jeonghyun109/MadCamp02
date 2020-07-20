@@ -43,6 +43,7 @@ import com.example.test1.ui.Data.LoginResponse;
 import com.example.test1.ui.LoginCallback;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
+import com.example.test1.ui.gallery.GalleryFragment;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 
@@ -155,7 +156,7 @@ public class ContactFragment extends Fragment {
             public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {
                 ContactResponse result = response.body();
                 String nj="{\"Contact\":"+result.getJson()+"}";
-                mAdapter = new ContactAdapter(context,mArrayList,ContactFragment.this);
+                mAdapter = new ContactAdapter(context,mArrayList, ContactFragment.this);
                 mRecyclerView.setAdapter(mAdapter);
                 jsonParsing(nj);
             }
