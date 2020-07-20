@@ -2,7 +2,6 @@ package com.example.test1.ui.contact;
 
 public class ContactInfo {
     private String Name;
-    private String phNumber;
     private String email;
 
     public String getName() {
@@ -11,14 +10,6 @@ public class ContactInfo {
 
     public void setName(String name) {
         Name = name;
-    }
-
-    public String getPhNumber() {
-        return phNumber;
-    }
-
-    public void setPhNumber(String phNumber) {
-        this.phNumber = phNumber;
     }
 
     public String getEmail() {
@@ -30,11 +21,8 @@ public class ContactInfo {
     }
 
 
-    public ContactInfo(String name, String phNumber, String email) {
+    public ContactInfo(String name, String email) {
         Name = name;
-        this.phNumber = phNumber;
         this.email = email;
     }
-
-    public ContactInfo(){}
 }

@@ -174,16 +174,11 @@ public class ContactFragment extends Fragment {
             JSONObject jobj=new JSONObject(json);
             JSONArray jarray=jobj.getJSONArray("Contact");
 
-            Log.d("제이슨",String.valueOf(jarray.length()));
-
             for(int i=0; i<jarray.length(); i++){
                 JSONObject pobj=jarray.getJSONObject(i);
-                Log.d("qqqqqqqqqq", pobj.toString());
-                ContactInfo c=new ContactInfo(pobj.getString("CName"),pobj.getString("CNumber"),pobj.getString("CEmail"));
+                ContactInfo c=new ContactInfo(pobj.getString("CName"),pobj.getString("CEmail"));
 
                 mArrayList.add(c);
-                Log.d("qqqqqqqqqq", pobj.getString("CName"));
-                Log.d("qqqqqqqqqq", String.valueOf(mArrayList.size()));
             }
         } catch (JSONException e) {
             e.printStackTrace();

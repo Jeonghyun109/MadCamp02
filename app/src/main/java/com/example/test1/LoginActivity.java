@@ -162,23 +162,25 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
 
-                ServiceApi mservice = RetrofitClient.getClient().create(ServiceApi.class);
-                mservice.userUser(data).enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        UserResponse result2 = response.body();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("UserID", result2.getID());
-                        intent.putExtra("Useremail", result2.getEmail());
-                        intent.putExtra("Username", result2.getName());
-                        startActivity(intent);
+                if(result.getCode() == 200){
+                    ServiceApi mservice = RetrofitClient.getClient().create(ServiceApi.class);
+                    mservice.userUser(data).enqueue(new Callback<UserResponse>() {
+                        @Override
+                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                            UserResponse result2 = response.body();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("UserID", result2.getID());
+                            intent.putExtra("Useremail", result2.getEmail());
+                            intent.putExtra("Username", result2.getName());
+                            startActivity(intent);
 
-                    }
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Log.e("이거 또 틀렸대",t.getMessage());
-                    }
-                });
+                        }
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                            Log.e("이거 또 틀렸대",t.getMessage());
+                        }
+                    });
+                }
             }
 
             @Override

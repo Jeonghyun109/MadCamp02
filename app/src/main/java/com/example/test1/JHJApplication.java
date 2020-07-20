@@ -4,15 +4,13 @@ import android.app.Application;
 
 public class JHJApplication extends Application {
     private int id;
-    private String jsonlist;
+    private String name;
 
-    public String getJsonlist() {
-        return jsonlist;
+    public String getName() {
+        return name;
     }
 
-    public void setJsonlist(String jsonlist) {
-        this.jsonlist = jsonlist;
-    }
+    public void setName(String name) { this.name=name;}
 
     public int getId() {return id;}
     public void setId(int id){this.id=id;}

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent=getIntent();
         ((JHJApplication)this.getApplication()).setId(intent.getIntExtra("UserID",0));
+        ((JHJApplication)this.getApplication()).setName(intent.getStringExtra("Username"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);

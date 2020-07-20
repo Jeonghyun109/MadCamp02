@@ -21,6 +21,10 @@ import com.example.test1.ui.Data.UserResponse;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,14 +38,14 @@ public class ContactAdd extends Activity {
     private Context mContext;
     private Button add;
 
+    private String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_add);
         mContext = getApplicationContext();
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.addc_email);
-        mPhoneView = (EditText) findViewById(R.id.addc_phone);
         mNameView = (EditText) findViewById(R.id.addc_name);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
@@ -55,17 +59,15 @@ public class ContactAdd extends Activity {
         });
     }
     private void attemptAddC(View v) {
-        mEmailView.setError(null);
-        mPhoneView.setError(null);
         mNameView.setError(null);
 
-        String email = mEmailView.getText().toString();
         String name = mNameView.getText().toString();
-        String phone = mPhoneView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
+        int id = ((JHJApplication)this.getApplication()).getId();
+        String myName = ((JHJApplication)this.getApplication()).getName();
         // 이름의 유효성 검사
         if (name.isEmpty()) {
             mNameView.setError("이름을 입력해주세요.");
@@ -76,47 +78,32 @@ public class ContactAdd extends Activity {
             focusView = mNameView;
             cancel = true;
         }
-
-        // 번호의 유효성 검사
-        if (phone.isEmpty()) {
-            mPhoneView.setError("전화번호를 입력해주세요.");
-            focusView = mPhoneView;
-            cancel = true;
-        } else if (!isPhoneValid(phone)) {
-            mPhoneView.setError("10자 이상의 전화번호를 입력해주세요.");
-            focusView = mPhoneView;
+        else if(name.equals(myName)){
+            mNameView.setError("본인 외 이름을 입력해주세요.");
+            focusView = mNameView;
             cancel = true;
         }
-
-        // 이메일의 유효성 검사
-        if (email.isEmpty()) {
-            mEmailView.setError("이메일을 입력해주세요.");
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email) && email.length()!=0) {
-            mEmailView.setError("@를 포함한 유효한 이메일을 입력해주세요.");
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        Log.e("aaa", name+phone+email);
 
         if (cancel) {
             focusView.requestFocus();
         } else {
-            int id = ((JHJApplication)this.getApplication()).getId();
-            addContact(new ContactData(id, name, phone, email));
+            addContact(new ContactData(id, name));
         }
     }
+
 
     private void addContact(ContactData data) {
         service.addCheck(data).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse result1 = response.body();
+                //json으로 받은 거 이메일 변수에 저장해야 함
+
                 if(result1.getResult()==1){
+                    String nj="{\"Contact\":["+result1.getJson()+"]}";
+                    jsonParsing(nj);
                     ServiceApi mservice = RetrofitClient.getClient().create(ServiceApi.class);
-                    mservice.contactAdd(data).enqueue(new Callback<ContactResponse>() {
+                    mservice.contactAdd(new ContactData(data.getId(), data.getName(), email)).enqueue(new Callback<ContactResponse>() {
                         @Override
                         public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {
                             ContactResponse result2 = response.body();
@@ -141,15 +128,23 @@ public class ContactAdd extends Activity {
         });
     }
 
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
-    }
-
-    private boolean isPhoneValid(String phone) {
-        return phone.length() >= 10;
-    }
-
     private boolean isNameValid(String phone) {
         return phone.length() > 0;
+    }
+
+    private void jsonParsing(String json){
+        try{
+            Log.d("ttttt",json);
+            JSONObject jobj=new JSONObject(json);
+            JSONArray jarray=jobj.getJSONArray("Contact");
+//            Log.d("ttttt", String.valueOf(jarray.length()));
+
+            JSONObject pobj=jarray.getJSONObject(0);
+
+            email=pobj.getString("UserEmail");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

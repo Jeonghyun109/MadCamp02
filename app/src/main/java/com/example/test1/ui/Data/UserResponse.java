@@ -15,6 +15,9 @@ public class UserResponse {
     @SerializedName("result")
     private int result;
 
+    @SerializedName("json")
+    private String json;
+
     public String getName() {
         return name;
     }
@@ -28,4 +31,6 @@ public class UserResponse {
     }
 
     public int getResult() { return result; }
+
+    public String getJson() { return json; }
 }

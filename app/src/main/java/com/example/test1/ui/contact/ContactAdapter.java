@@ -47,7 +47,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     /* CustomViewHolder constructed with textViews */
     public class ContactViewHolder extends RecyclerView.ViewHolder {
         protected TextView name;
-        protected TextView phnumber;
+        protected TextView email;
 
         public ContactViewHolder(View view) {
             super(view);
@@ -65,7 +65,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                             int pos = getAdapterPosition();
                             if (pos != RecyclerView.NO_POSITION) {
                                 service = RetrofitClient.getClient().create(ServiceApi.class);
-                                ContactData data=new ContactData(mList.get(pos).getPhNumber());
+                                ContactData data=new ContactData(mList.get(pos).getName());
                                 service.contactDelete(data).enqueue(new Callback<ContactResponse>() {
                                     @Override
                                     public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {
@@ -95,7 +95,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             });
 
             this.name = view.findViewById(R.id.list_name);
-            this.phnumber = view.findViewById(R.id.list_number);
+            this.email = view.findViewById(R.id.list_email);
         }
     }
 
@@ -119,15 +119,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     public void onBindViewHolder(@NonNull ContactViewHolder viewholder, int position) {
         ContactInfo data = mList.get(position);
         viewholder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.phnumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        viewholder.email.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 
         viewholder.name.setGravity(Gravity.LEFT);
-        viewholder.phnumber.setGravity(Gravity.LEFT);
-
-        Log.v("이름",data.getName());
+        viewholder.email.setGravity(Gravity.LEFT);
 
         viewholder.name.setText(data.getName());
-        viewholder.phnumber.setText(data.getPhNumber());
+        viewholder.email.setText(data.getEmail());
     }
 
     @Override

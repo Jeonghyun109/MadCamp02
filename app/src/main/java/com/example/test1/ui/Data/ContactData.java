@@ -9,24 +9,25 @@ public class ContactData {
     @SerializedName("userEmail")
     private String userEmail;
 
-    @SerializedName("userPhone")
-    private String userPhone;
-
     @SerializedName("userID")
     private int userID;
 
-    public ContactData(int userID, String userName, String userPhone, String userEmail) {
+    public ContactData(int userID, String userName, String userEmail) {
         this.userID=userID;
         this.userName = userName;
         this.userEmail = userEmail;
-        this.userPhone = userPhone;
     }
 
-    public ContactData(int userID) {
+    public ContactData(int userID, String userName) {
         this.userID=userID;
+        this.userName = userName;
     }
 
-    public ContactData(String userPhone) {
-        this.userPhone=userPhone;
+    public ContactData(String userName) {
+        this.userName=userName;
     }
+    public ContactData(int userID) { this.userID=userID; }
+
+    public int getId(){ return userID; }
+    public String getName(){ return userName; }
 }
