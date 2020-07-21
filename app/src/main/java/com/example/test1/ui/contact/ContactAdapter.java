@@ -53,6 +53,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             super(view);
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
+
                 @Override
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder del=new AlertDialog.Builder(fragment.getActivity());
@@ -92,7 +93,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
                     return false;
                 }
+
             });
+
+            view.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent intent = new Intent(context, VisitHomepage.class);
+                        intent.putExtra("name",mList.get(pos).getName());
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
 
             this.name = view.findViewById(R.id.list_name);
             this.phnumber = view.findViewById(R.id.list_number);

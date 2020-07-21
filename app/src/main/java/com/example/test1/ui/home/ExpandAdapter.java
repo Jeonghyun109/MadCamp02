@@ -1,10 +1,14 @@
 package com.example.test1.ui.home;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +53,35 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         Glide.with(context).load(DataList.get(groupPosition).parent.getImg_uri()).into(parentImg);
         parentContent.setText(DataList.get(groupPosition).parent.getB_content());
         parentReplies.setText(String.valueOf(DataList.get(groupPosition).parent.getB_replies()));
+
+
+        EditText text = (EditText)convertView.findViewById(R.id.b_edit);
+        Button button = (Button)convertView.findViewById(R.id.b_button);
+
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // input창에 문자를 입력할 때마다 호출됨
+                // search 메소드 호출
+                String total_text = text.getText().toString();
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // add comment to DB!!!!!!!!!
+            }
+        });
+
 
         return convertView;
     }
