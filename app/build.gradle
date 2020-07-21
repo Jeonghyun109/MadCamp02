@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.bignerdranch.android:expandablerecyclerview:3.0.0-RC1'
     // for replies
     implementation 'com.github.bmelnychuk:atv:1.2.+'
 

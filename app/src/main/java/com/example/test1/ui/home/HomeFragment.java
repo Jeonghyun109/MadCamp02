@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class HomeFragment extends Fragment {
     int id;
@@ -81,15 +84,11 @@ public class HomeFragment extends Fragment {
         Display newDisplay = getActivity().getWindowManager().getDefaultDisplay();
         int width = newDisplay.getWidth();
 
-
-        /////////////////////////////////
         showProfile(new HomeData(MainActivity.name));
         home_img = (ImageView)root.findViewById(R.id.home_img);
         home_name = (TextView)root.findViewById(R.id.home_name);
         home_email = (TextView)root.findViewById(R.id.home_email);
         home_message = (TextView)root.findViewById(R.id.home_message);
-
-
 
         DataList = new ArrayList<myGroup>();
         Log.v("정ㅎㄴ",String.valueOf(DataList));
@@ -101,9 +100,7 @@ public class HomeFragment extends Fragment {
 
         listView.setIndicatorBounds(width-50, width);
 
-        ///////////////////////////////////
         showBelow(new VisitorData(MainActivity.name));
-
 
         return root;
     }
@@ -121,8 +118,6 @@ public class HomeFragment extends Fragment {
                 String nj="{\"Profile\":"+result.getJson()+"}";
 
                 jsonParsing(nj);
-
-                //        Glide.with(context).load(profileInfo.getP_img()).into(home_img);
             }
 
             @Override

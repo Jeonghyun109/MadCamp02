@@ -77,38 +77,6 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         parentContent.setText(DataList.get(groupPosition).parent.getB_content());
         parentReplies.setText(String.valueOf(DataList.get(groupPosition).parent.getB_replies()));
 
-
-        EditText text = (EditText)convertView.findViewById(R.id.b_edit);
-        Button button = (Button)convertView.findViewById(R.id.b_button);
-
-        text.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // input창에 문자를 입력할 때마다 호출됨
-                // search 메소드 호출
-                content = text.getText().toString();
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String time = formatter.format(cal.getTime());
-                ///////////////////////////////////////
-                if(content != null) addComm(new CommData(DataList.get(groupPosition).parent.getB_number(), MainActivity.name, content, time));
-                else Toast.makeText(context, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         return convertView;
     }
 
