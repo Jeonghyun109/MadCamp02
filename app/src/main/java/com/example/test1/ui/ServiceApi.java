@@ -1,15 +1,19 @@
 package com.example.test1.ui;
 
+import com.example.test1.ui.Data.CommData;
 import com.example.test1.ui.Data.ContactData;
 import com.example.test1.ui.Data.ContactResponse;
 import com.example.test1.ui.Data.GalleryData;
 import com.example.test1.ui.Data.GalleryResponse;
+import com.example.test1.ui.Data.HomeData;
+import com.example.test1.ui.Data.HomeResponse;
 import com.example.test1.ui.Data.ImgResponse;
 import com.example.test1.ui.Data.JoinData;
 import com.example.test1.ui.Data.JoinResponse;
 import com.example.test1.ui.Data.LoginData;
 import com.example.test1.ui.Data.LoginResponse;
 import com.example.test1.ui.Data.UserResponse;
+import com.example.test1.ui.Data.VisitorData;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -57,6 +61,35 @@ public interface ServiceApi {
 
     @POST("/photo")
     Call<GalleryResponse> photo(@Body GalleryData data);
+
+    @POST("/hp/host")
+    Call<HomeResponse> hpHost(@Body HomeData data);
+
+    @POST("/hp/post")
+    Call<HomeResponse> hpPost(@Body VisitorData data);
+
+    @POST("/hp/comm")
+    Call<HomeResponse> hpComm(@Body CommData data);
+
+    @POST("/comm/add")
+    Call<HomeResponse> commAdd(@Body CommData data);
+
+    @POST("/comm/delete/single")
+    Call<HomeResponse> commDSingle(@Body CommData data);
+
+    @POST("/comm/delete/all")
+    Call<HomeResponse> commDAll(@Body CommData data);
+
+    @POST("/visit/add")
+    Call<HomeResponse> visitAdd(@Body VisitorData data);
+
+    @POST("/visit/delete")
+    Call<HomeResponse> visitDelete(@Body VisitorData data);
+
+    @POST("/modify/msg")
+    Call<HomeResponse> modifyMsg(@Body HomeData data);
+
+    //cyworld
 }
 //    public void uploadImage(File file) {
 //        // create multipart
