@@ -46,6 +46,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class HomeFragment extends Fragment {
     int id;
     private ServiceApi service;
@@ -70,7 +72,6 @@ public class HomeFragment extends Fragment {
 
     private ExpandAdapter adapter;
     ParentInfo p_info;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
