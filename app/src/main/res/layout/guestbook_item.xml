@@ -80,22 +80,6 @@
             android:paddingTop="5dp"
             android:gravity="center"
             android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/b_edit"
-                android:layout_width="310dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/neodgm"
-                android:textSize="15dp"
-                android:hint="댓글"/>
-
-            <Button
-                android:id="@+id/b_button"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:background="@drawable/border"
-                android:fontFamily="@font/neodgm"
-                android:text="입력"/>
         </LinearLayout>
 
         <LinearLayout

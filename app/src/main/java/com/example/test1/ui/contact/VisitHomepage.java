@@ -245,7 +245,7 @@ public class VisitHomepage extends Activity {
                 JSONObject pobj=jarray.getJSONObject(i);
 
                 if(field.equals("Visitor")){
-                    parentInfo=new ParentInfo(pobj.getInt("PostID"), pobj.getString("VisitName"), pobj.getString("Time"),pobj.getString("Photo"),pobj.getString("Content"),0);
+                    parentInfo=new ParentInfo(i+1, pobj.getInt("PostID"), pobj.getString("VisitName"), pobj.getString("Time"),pobj.getString("Photo"),pobj.getString("Content"),0);
                     ParentList.add(parentInfo);
                 }
                 else if(field.equals("Comment")){

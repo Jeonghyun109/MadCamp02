@@ -1,12 +1,16 @@
 package com.example.test1.ui.home;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.test1.JHJApplication;
 import com.example.test1.MainActivity;
 import com.example.test1.R;
 import com.example.test1.ui.Data.CommData;
+import com.example.test1.ui.Data.ContactData;
+import com.example.test1.ui.Data.ContactResponse;
+import com.example.test1.ui.Data.HomeData;
 import com.example.test1.ui.Data.HomeResponse;
 import com.example.test1.ui.Data.VisitorData;
 import com.example.test1.ui.RetrofitClient;
@@ -70,44 +78,80 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         TextView parentContent = (TextView)convertView.findViewById(R.id.b_content);
         TextView parentReplies = (TextView)convertView.findViewById(R.id.replies);
 
-        parentId.setText(String.valueOf(DataList.get(groupPosition).parent.getB_number()));
+        Log.d("kkkkkkk", String.valueOf(DataList.get(groupPosition).parent.getB_number()));
+//        parentId.setText(String.valueOf(DataList.get(groupPosition).parent.getB_number()));
+        parentId.setText("No."+String.valueOf(DataList.get(groupPosition).parent.getB_cnt()));
         parentName.setText(DataList.get(groupPosition).parent.getB_Name());
         parentTime.setText(DataList.get(groupPosition).parent.getTimestamp());
         Glide.with(context).load(DataList.get(groupPosition).parent.getImg_uri()).into(parentImg);
         parentContent.setText(DataList.get(groupPosition).parent.getB_content());
         parentReplies.setText(String.valueOf(DataList.get(groupPosition).parent.getB_replies()));
 
-
-        EditText text = (EditText)convertView.findViewById(R.id.b_edit);
-        Button button = (Button)convertView.findViewById(R.id.b_button);
-
-        text.addTextChangedListener(new TextWatcher() {
+        parentContent.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder chg=new AlertDialog.Builder(parent.getContext());
+                chg.setTitle("골라라 냥!");
+                chg.setMessage("무엇을 하겠냥?");
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+                chg.setNegativeButton("댓글 입력!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder add = new AlertDialog.Builder(parent.getContext());
+                        Log.d("aaaaaa", String.valueOf(add));
+                        add.setTitle("댓글!");
+                        add.setMessage("달아봐라 냥!");
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // input창에 문자를 입력할 때마다 호출됨
-                // search 메소드 호출
-                content = text.getText().toString();
+                        final EditText et = new EditText(parent.getContext());
+                        add.setView(et);
+
+                        add.setPositiveButton("입력 꾹꾹!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String value = et.getText().toString();
+                                String time = formatter.format(cal.getTime());
+                                addComm(new CommData(DataList.get(groupPosition).parent.getB_number(), MainActivity.name, value, time));
+                            }
+                        });
+                        add.show();
+                    }
+                });
+
+                chg.setPositiveButton("삭제!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        Log.d("cccccccccc", MainActivity.name+"  "+DataList.get(groupPosition).parent.getB_Name());
+                        service = RetrofitClient.getClient().create(ServiceApi.class);
+                        service.commDAll(new CommData(DataList.get(groupPosition).parent.getB_number())).enqueue(new Callback<HomeResponse>() {
+                            @Override
+                            public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                                HomeResponse result = response.body();
+                                service.visitDelete(new VisitorData(DataList.get(groupPosition).parent.getB_Name(), DataList.get(groupPosition).parent.getTimestamp())).enqueue(new Callback<HomeResponse>() {
+                                    @Override
+                                    public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                                        HomeResponse result = response.body();
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<HomeResponse> call, Throwable t) {
+                                        Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Call<HomeResponse> call, Throwable t) {
+                                Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+                            }
+                        });
+                    }
+                });
+                chg.create().show();
+
+                return false;
             }
         });
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String time = formatter.format(cal.getTime());
-                ///////////////////////////////////////
-                if(content != null) addComm(new CommData(DataList.get(groupPosition).parent.getB_number(), MainActivity.name, content, time));
-                else Toast.makeText(context, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
         return convertView;
     }
@@ -142,6 +186,50 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         childName.setText(DataList.get(groupPosition).child.get(childPosition).getR_name());
         childTime.setText(DataList.get(groupPosition).child.get(childPosition).getR_timestamp());
         childMessage.setText(DataList.get(groupPosition).child.get(childPosition).getR_content());
+
+        childMessage.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder chg=new AlertDialog.Builder(parent.getContext());
+                chg.setTitle("골라라 냥!");
+                chg.setMessage("무엇을 하겠냥?");
+
+                chg.setNegativeButton("댓글 입력!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder add = new AlertDialog.Builder(parent.getContext());
+                        Log.d("aaaaaa", String.valueOf(add));
+                        add.setTitle("삭제!");
+                        add.setMessage("할거냥?");
+
+                        add.setNegativeButton("맞다냥!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                service = RetrofitClient.getClient().create(ServiceApi.class);
+                                service.commDSingle(new CommData(DataList.get(groupPosition).child.get(childPosition).getR_name(), DataList.get(groupPosition).child.get(childPosition).getR_timestamp())).enqueue(new Callback<HomeResponse>() {
+                                    @Override
+                                    public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                                        Toast.makeText(context, "삭제했다 냥!", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<HomeResponse> call, Throwable t) {
+                                        Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+                                    }
+                                });
+                            }
+                        });
+                        add.setPositiveButton("아니다냥!", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        add.show();
+                    }
+                });
+            }
+        });
 
         return convertView;
     }

@@ -55,6 +55,7 @@ public class Launcher extends AppCompatActivity {
             intent = new Intent(getApplicationContext(), LoginActivity.class);
             Log.v("야", String.valueOf(intent));
             startActivity(intent);
+            finish();
         }
 
     }

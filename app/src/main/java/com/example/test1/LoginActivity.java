@@ -49,7 +49,7 @@ public class LoginActivity extends Activity {
     private EditText mPasswordView;
     private Button mEmailLoginButton;
     private Button mJoinButton;
-    private ProgressBar mProgressView;
+//    private ProgressBar mProgressView;
     private ServiceApi service;
     private Context mContext;
     private Button btn_custom_login;
@@ -92,7 +92,7 @@ public class LoginActivity extends Activity {
         mPasswordView = (EditText) findViewById(R.id.login_password);
         mEmailLoginButton = (Button) findViewById(R.id.login_button);
         mJoinButton = (Button) findViewById(R.id.join_button);
-        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
+//        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
 
         service = RetrofitClient.getClient().create(ServiceApi.class);
 
@@ -110,8 +110,6 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void attemptLogin(View v) {
@@ -150,7 +148,7 @@ public class LoginActivity extends Activity {
             focusView.requestFocus();
         } else {
             startLogin(new LoginData(email, password));
-            showProgress(true);
+//            showProgress(true);
         }
     }
 
@@ -173,7 +171,6 @@ public class LoginActivity extends Activity {
                             intent.putExtra("Useremail", result2.getEmail());
                             intent.putExtra("Username", result2.getName());
                             startActivity(intent);
-
                         }
                         @Override
                         public void onFailure(Call<UserResponse> call, Throwable t) {
@@ -201,7 +198,7 @@ public class LoginActivity extends Activity {
     }
 
     private void showProgress(boolean show) {
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -209,10 +206,6 @@ public class LoginActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-        Log.v("이거야",String.valueOf(requestCode));
-        Log.v("결과야",String.valueOf(resultCode));
-        Log.v("데이터야",String.valueOf(data));
 
         if (resultCode == -1) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

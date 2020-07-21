@@ -34,4 +34,8 @@ public class VisitorData {
         this.hostName=hostName;
     }
 
+    public VisitorData(String visitName, String time){
+        this.visitName=visitName;
+        this.time=time;
+    }
 }

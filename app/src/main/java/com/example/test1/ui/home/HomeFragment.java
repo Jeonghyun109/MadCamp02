@@ -1,8 +1,10 @@
 package com.example.test1.ui.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.TestLooperManager;
 import android.provider.ContactsContract;
@@ -11,19 +13,23 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.test1.JHJApplication;
 import com.example.test1.MainActivity;
 import com.example.test1.R;
 import com.example.test1.ui.Data.CommData;
+import com.example.test1.ui.Data.ContactData;
 import com.example.test1.ui.Data.HomeData;
 import com.example.test1.ui.Data.HomeResponse;
 import com.example.test1.ui.Data.VisitorData;
@@ -64,6 +70,7 @@ public class HomeFragment extends Fragment {
 
     private ExpandAdapter adapter;
     ParentInfo p_info;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +88,25 @@ public class HomeFragment extends Fragment {
         Display newDisplay = getActivity().getWindowManager().getDefaultDisplay();
         int width = newDisplay.getWidth();
 
+        final SwipeRefreshLayout pullToRefresh = root.findViewById(R.id.pullToRefresh3);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        DataList.clear();
+                        ParentList.clear();
+                        ChildList.clear();
+                        showProfile(new HomeData(MainActivity.name));
+                        showBelow(new VisitorData(MainActivity.name));
+                    }
+                }
+                ).start();
+                //updateData();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
         /////////////////////////////////
         showProfile(new HomeData(MainActivity.name));
@@ -89,7 +115,46 @@ public class HomeFragment extends Fragment {
         home_email = (TextView)root.findViewById(R.id.home_email);
         home_message = (TextView)root.findViewById(R.id.home_message);
 
+        home_message.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder chg=new AlertDialog.Builder(context);
+                chg.setTitle("대문글");
+                chg.setMessage("바꾸기다 냥!");
 
+                final EditText et = new EditText(context);
+                chg.setView(et);
+
+                chg.setNegativeButton("바꾸겠다 냥!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String value = et.getText().toString();
+                        service = RetrofitClient.getClient().create(ServiceApi.class);
+                        service.modifyMsg(new HomeData(MainActivity.name, value)).enqueue(new Callback<HomeResponse>() {
+                            @Override
+                            public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                                Toast.makeText(context, "바꿨다 냥!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<HomeResponse> call, Throwable t) {
+                                Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+                            }
+                        });
+                    }
+                });
+
+                chg.setPositiveButton("싫다 냥!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "안 바꿨다 냥!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                chg.create().show();
+
+                return false;
+            }
+        });
 
         DataList = new ArrayList<myGroup>();
         Log.v("정ㅎㄴ",String.valueOf(DataList));
@@ -212,7 +277,7 @@ public class HomeFragment extends Fragment {
                 JSONObject pobj=jarray.getJSONObject(i);
 
                 if(field.equals("Visitor")){
-                    parentInfo=new ParentInfo(pobj.getInt("PostID"), pobj.getString("VisitName"), pobj.getString("Time"),pobj.getString("Photo"),pobj.getString("Content"),0);
+                    parentInfo=new ParentInfo(i+1, pobj.getInt("PostID"), pobj.getString("VisitName"), pobj.getString("Time"),pobj.getString("Photo"),pobj.getString("Content"),0);
                     ParentList.add(parentInfo);
                 }
                 else if(field.equals("Comment")){

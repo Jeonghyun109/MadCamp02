@@ -30,7 +30,7 @@
         android:id="@+id/reply_message"
         android:layout_width="wrap_content"
         android:fontFamily="@font/neodgm"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:text="음악은 국가가 허락한 유일한 마약...★"/>
 
 </LinearLayout>

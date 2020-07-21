@@ -7,6 +7,15 @@ public class ParentInfo {
     private String img_uri;
     private String b_content;
     private int b_replies;
+    private int cnt;
+
+    public int getB_cnt() {
+        return cnt;
+    }
+
+    public void setB_cnt(int cnt) {
+        this.cnt = cnt;
+    }
 
     public int getB_replies() {
         return b_replies;
@@ -56,7 +65,8 @@ public class ParentInfo {
         this.b_content = b_content;
     }
 
-    public ParentInfo(int b_number, String name, String timestamp, String img_uri, String b_content, int b_replies) {
+    public ParentInfo(int cnt, int b_number, String name, String timestamp, String img_uri, String b_content, int b_replies) {
+        this.cnt=cnt;
         this.b_number = b_number;
         this.b_name = name;
         this.timestamp = timestamp;
