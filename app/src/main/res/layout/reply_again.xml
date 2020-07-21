@@ -14,12 +14,14 @@
             android:id="@+id/reply_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/neodgm"
             android:text="김정현"/>
 
         <TextView
             android:id="@+id/reply_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/neodgm"
             android:text="2020.07020"/>
     </LinearLayout>
 
@@ -27,6 +29,7 @@
     <TextView
         android:id="@+id/reply_message"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/neodgm"
         android:layout_height="match_parent"
         android:text="음악은 국가가 허락한 유일한 마약...★"/>
 

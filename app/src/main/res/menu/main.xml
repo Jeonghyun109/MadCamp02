@@ -5,11 +5,13 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        android:fontFamily="@font/neodgm"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/logout"
         android:orderInCategory="200"
-        android:title="Logout"
+        android:fontFamily="@font/neodgm"
+        android:title="로그아웃"
         app:showAsAction="never" />
 </menu>

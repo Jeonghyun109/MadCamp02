@@ -15,8 +15,11 @@ tools:context=".ui.contact.ContactFragment">
             android:id="@+id/go_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADD"
-            android:textStyle="bold"
+            android:text="일촌 추가하기"
+            android:textSize="17dp"
+            android:layout_margin="10dp"
+            android:background="@color/ivory"
+            android:fontFamily="@font/neodgm"
             tools:ignore="MissingConstraints" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
