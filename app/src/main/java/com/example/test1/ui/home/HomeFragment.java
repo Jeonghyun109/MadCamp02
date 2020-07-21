@@ -44,26 +44,26 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
-        ProfileInfo profileInfo = new ProfileInfo(?,?,?,?);
-        ImageView home_img = (ImageView)root.findViewById(R.id.home_img);
-        TextView home_name = (TextView)root.findViewById(R.id.home_name);
-        TextView home_email = (TextView)root.findViewById(R.id.home_email);
-        TextView home_message = (TextView)root.findViewById(R.id.home_message);
-
-        Glide.with(context).load(profileInfo.getP_img()).into(home_img);
-        home_name.setText(profileInfo.getP_name());
-        home_email.setText(profileInfo.getP_email());
-        home_message.setText(profileInfo.getP_message());
-
-        ArrayList<myGroup> DataList = new ArrayList<myGroup>();
-        listView = (ExpandableListView) root.findViewById(R.id.guestbook);
-
-        myGroup temp = new myGroup(new ParentInfo(?,?,?,?,?));
-        temp.child.add("댓글");
-
-        ExpandAdapter adapter = new ExpandAdapter(context.getApplicationContext(),R.layout.guestbook_item,R.layout.reply_again,DataList);
-        listView.setAdapter(adapter);
+//
+//        ProfileInfo profileInfo = new ProfileInfo(?,?,?,?);
+//        ImageView home_img = (ImageView)root.findViewById(R.id.home_img);
+//        TextView home_name = (TextView)root.findViewById(R.id.home_name);
+//        TextView home_email = (TextView)root.findViewById(R.id.home_email);
+//        TextView home_message = (TextView)root.findViewById(R.id.home_message);
+//
+//        Glide.with(context).load(profileInfo.getP_img()).into(home_img);
+//        home_name.setText(profileInfo.getP_name());
+//        home_email.setText(profileInfo.getP_email());
+//        home_message.setText(profileInfo.getP_message());
+//
+//        ArrayList<myGroup> DataList = new ArrayList<myGroup>();
+//        listView = (ExpandableListView) root.findViewById(R.id.guestbook);
+//
+//        myGroup temp = new myGroup(new ParentInfo(?,?,?,?,?));
+//        temp.child.add("댓글");
+//
+//        ExpandAdapter adapter = new ExpandAdapter(context.getApplicationContext(),R.layout.guestbook_item,R.layout.reply_again,DataList);
+//        listView.setAdapter(adapter);
 
         return root;
     }

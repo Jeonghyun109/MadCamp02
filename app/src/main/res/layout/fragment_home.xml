@@ -10,42 +10,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/border"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="150dp"
+        <ImageView
+            android:id="@+id/home_img"
+            android:layout_gravity="center"
+            android:layout_width="130dp"
             android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border"/>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="vertical">
-            <ImageView
-                android:id="@+id/home_img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/ic_menu_camera"/>
             <TextView
                 android:id="@+id/home_name"
+                android:fontFamily="@font/neodgm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#791E94"
                 android:text="이 름"/>
             <TextView
                 android:id="@+id/home_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/neodgm"
+                android:textSize="10dp"
                 android:text="이메일"/>
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/home_message"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:padding="10dp"
-            android:text="나는 가끔 눈물을 흘린ㄷr..."/>
+            <TextView
+                android:id="@+id/home_message"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/neodgm"
+                android:textSize="13dp"
+                android:layout_width="250dp"
+                android:layout_height="110dp"
+                android:text="나는 가끔 눈물을 흘린ㄷr..."/>
+        </LinearLayout>
     </LinearLayout>
 
     <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:clickable="true"
+        android:groupIndicator="@android:color/transparent"
         android:id="@+id/guestbook" />
 
 </LinearLayout>

@@ -15,78 +15,101 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <ScrollView
-        android:id="@+id/login_form"
+    <LinearLayout
+        android:id="@+id/email_login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:text="ㄱ나니...?"
+            android:textSize="70dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="#ff7473"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <AutoCompleteTextView
+                android:id="@+id/login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="이메일"
+                android:fontFamily="@font/neodgm"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="비밀번호"
+                android:fontFamily="@font/neodgm"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="16dp"
+            android:onClick="attemptLogin"
+            android:fontFamily="@font/neodgm"
+            android:text="로그인"
+            android:background="@color/ivory"
+            android:layout_marginBottom="16dp"
+            android:textSize="17dp"
+            android:foreground="@drawable/for_login"
+            android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/join_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="회원가입"
+            android:foreground="@drawable/for_login"
+            android:textSize="17dp"
+            android:background="@color/ivory"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/neodgm"
+            android:textStyle="bold" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/login_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="이메일"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+        <Button
+            android:id="@+id/btn_custom_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="@drawable/for_login"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/neodgm"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:background="#2b90d9"
+            android:textColor="@color/white"
+            android:text="페이스북으로 로그인" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/login_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="비밀번호"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:onClick="attemptLogin"
-                android:text="로그인"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/join_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="회원가입"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btn_custom_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="페이스북으로 로그인" />
-
-            <Button
-                android:id="@+id/btn_custom_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="페이스북 로그아웃"
-                android:visibility="invisible" />
-
-
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/btn_custom_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="17dp"
+            android:foreground="@drawable/for_login"
+            android:text="페이스북 로그아웃"
+            android:textStyle="bold"
+            android:background="#2b90d9"
+            android:fontFamily="@font/neodgm"
+            android:visibility="invisible" />
+    </LinearLayout>
 </FrameLayout>
