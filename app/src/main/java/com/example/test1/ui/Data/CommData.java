@@ -18,12 +18,11 @@ public class CommData {
     @SerializedName("commID")
     private int commID;
 
-    public CommData(int postID, String commName, String commCont, String time, int commID) {
+    public CommData(int postID, String commName, String commCont, String time) {
         this.postID=postID;
         this.commName=commName;
         this.commCont=commCont;
         this.time=time;
-        this.commID=commID;
     }
 
     public CommData(String commName, String time) {

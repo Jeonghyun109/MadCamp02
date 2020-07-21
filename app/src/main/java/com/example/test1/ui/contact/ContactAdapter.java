@@ -66,7 +66,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                             int pos = getAdapterPosition();
                             if (pos != RecyclerView.NO_POSITION) {
                                 service = RetrofitClient.getClient().create(ServiceApi.class);
-                                ContactData data=new ContactData(mList.get(pos).getName());
+                                ContactData data=new ContactData(MainActivity.id, mList.get(pos).getName());
                                 service.contactDelete(data).enqueue(new Callback<ContactResponse>() {
                                     @Override
                                     public void onResponse(Call<ContactResponse> call, Response<ContactResponse> response) {

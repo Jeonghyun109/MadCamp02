@@ -3,6 +3,8 @@ package com.example.test1;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.example.test1.ui.Data.HomeData;
+import com.example.test1.ui.Data.HomeResponse;
 import com.example.test1.ui.Data.UserResponse;
 import com.example.test1.ui.RetrofitClient;
 import com.example.test1.ui.ServiceApi;
@@ -122,6 +124,21 @@ public class JoinActivity extends Activity {
                             Toast.makeText(JoinActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                             if (result.getCode() == 200) {
+                                service.hpAdd(new HomeData(data.getName(), data.getEmail(), " "," ")).enqueue(new Callback<HomeResponse>() {
+                                    @Override
+                                    public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                                        HomeResponse result = response.body();
+                                        Toast.makeText(JoinActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                                        if (result.getCode() == 200) {
+                                            finish();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<HomeResponse> call, Throwable t) {
+                                        Toast.makeText(JoinActivity.this, "회원가입 에러 발생", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                                 finish();
                             }
                         }

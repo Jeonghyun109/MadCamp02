@@ -3,6 +3,7 @@ package com.example.test1.ui.home;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,28 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.test1.JHJApplication;
+import com.example.test1.MainActivity;
 import com.example.test1.R;
+import com.example.test1.ui.Data.CommData;
+import com.example.test1.ui.Data.HomeResponse;
+import com.example.test1.ui.Data.VisitorData;
+import com.example.test1.ui.RetrofitClient;
+import com.example.test1.ui.ServiceApi;
+import com.example.test1.ui.contact.VisitHomepage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ExpandAdapter extends BaseExpandableListAdapter {
     private Context context;
@@ -24,6 +42,8 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
     private int chlidLayout = 0;
     private ArrayList<myGroup> DataList;
     private LayoutInflater myinf = null;
+    private ServiceApi service;
+    private String content;
 
     public ExpandAdapter(Context context,int groupLay,int chlidLay,ArrayList<myGroup> DataList){
         this.DataList = DataList;
@@ -39,8 +59,11 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
             convertView = myinf.inflate(this.groupLayout, parent, false);
         }
 
+        SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+        Calendar cal = Calendar.getInstance();
+
         // parent의 view 정해주기
-        TextView parentId = (TextView)convertView.findViewById(R.id.b_number);
+        TextView parentId = (TextView)convertView.findViewById(R.id.b_number);//
         TextView parentName = (TextView)convertView.findViewById(R.id.b_name);
         TextView parentTime = (TextView)convertView.findViewById(R.id.t_stamp);
         ImageView parentImg = (ImageView) convertView.findViewById(R.id.b_photo);
@@ -71,19 +94,38 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
             public void afterTextChanged(Editable editable) {
                 // input창에 문자를 입력할 때마다 호출됨
                 // search 메소드 호출
-                String total_text = text.getText().toString();
+                content = text.getText().toString();
             }
         });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // add comment to DB!!!!!!!!!
+                String time = formatter.format(cal.getTime());
+                ///////////////////////////////////////
+                if(content != null) addComm(new CommData(DataList.get(groupPosition).parent.getB_number(), MainActivity.name, content, time));
+                else Toast.makeText(context, "댓글을 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         return convertView;
+    }
+
+    private void addComm(CommData data) {
+        service = RetrofitClient.getClient().create(ServiceApi.class);
+        service.commAdd(data).enqueue(new Callback<HomeResponse>() {
+            @Override
+            public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                HomeResponse result = response.body();
+                Toast.makeText(context, result.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<HomeResponse> call, Throwable t) {
+                Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+            }
+        });
     }
 
     @Override

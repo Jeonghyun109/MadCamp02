@@ -7,7 +7,7 @@ public class myGroup {
     public ArrayList<ChildInfo> child;
     public ParentInfo parent;
 
-    myGroup(ParentInfo profile) {
+    public myGroup(ParentInfo profile) {
         child = new ArrayList<ChildInfo>();
         parent = profile;
     }

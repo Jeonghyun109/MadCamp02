@@ -1,7 +1,7 @@
 package com.example.test1.ui.home;
 
 public class ParentInfo {
-    private int b_number;
+    private int b_number; // postID
     private String b_name;
     private String timestamp;
     private String img_uri;

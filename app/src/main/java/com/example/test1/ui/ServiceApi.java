@@ -26,43 +26,46 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface ServiceApi {
-    @POST("/user/login")
+    @POST("/user/login")//
     Call<LoginResponse> userLogin(@Body LoginData data);
 
-    @POST("/user/join")
+    @POST("/user/join")//
     Call<JoinResponse> userJoin(@Body JoinData data);
 
-    @POST("/contact")
+    @POST("/contact")//
     Call<ContactResponse> contact(@Body ContactData data);
 
-    @POST("/contact/add")
+    @POST("/contact/add")//
     Call<ContactResponse> contactAdd(@Body ContactData data);
 
-    @POST("/contact/delete")
+    @POST("/contact/delete")//
     Call<ContactResponse> contactDelete(@Body ContactData data);
 
-    @POST("/user/get")
+    @POST("/user/get")//
     Call<UserResponse> userUser(@Body LoginData data);
 
-    @POST("/check/add")
+    @POST("/check/add")//
     Call<UserResponse> addCheck(@Body ContactData data);
 
-    @POST("/check/join")
+    @POST("/check/join")//
     Call<UserResponse> joinCheck(@Body JoinData data);
 
-    @POST("/user/logout")
+    @POST("/user/logout")//
     Call<LoginResponse> userLogout();
 
-    @POST("/photo/add")
+    @POST("/photo/add")//
     Call<GalleryResponse> photoAdd(@Body GalleryData data);
 
-    @POST("/photo/delete")
+    @POST("/photo/delete")//
     Call<GalleryResponse> photoDelete(@Body GalleryData data);
 
-    @POST("/photo")
+    @POST("/photo")//
     Call<GalleryResponse> photo(@Body GalleryData data);
 
-    @POST("/hp/host")
+    @POST("/hp/add")//
+    Call<HomeResponse> hpAdd(@Body HomeData data);
+
+    @POST("/hp/host")//
     Call<HomeResponse> hpHost(@Body HomeData data);
 
     @POST("/hp/post")
@@ -80,7 +83,7 @@ public interface ServiceApi {
     @POST("/comm/delete/all")
     Call<HomeResponse> commDAll(@Body CommData data);
 
-    @POST("/visit/add")
+    @POST("/visit/add")//
     Call<HomeResponse> visitAdd(@Body VisitorData data);
 
     @POST("/visit/delete")

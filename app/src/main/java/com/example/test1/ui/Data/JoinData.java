@@ -17,4 +17,7 @@ public class JoinData {
         this.userEmail = userEmail;
         this.userPwd = userPwd;
     }
+
+    public String getName(){ return userName; }
+    public String getEmail(){ return userEmail; }
 }

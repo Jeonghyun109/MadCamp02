@@ -41,12 +41,17 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
     String Name;
     String Email;
+    static public int id;
+    static public String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent=getIntent();
         ((JHJApplication)this.getApplication()).setId(intent.getIntExtra("UserID",0));
         ((JHJApplication)this.getApplication()).setName(intent.getStringExtra("Username"));
+        id=((JHJApplication)this.getApplication()).getId();
+        name=((JHJApplication)this.getApplication()).getName();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);

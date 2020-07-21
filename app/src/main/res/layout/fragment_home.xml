@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:groupIndicator="@android:color/transparent"
         android:id="@+id/guestbook" />
 
 </LinearLayout>
