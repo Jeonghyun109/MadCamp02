@@ -167,6 +167,9 @@ public class GalleryFragment extends Fragment {
         context.sendBroadcast(mediaScanIntent);
 
         Uri uri = getImageContentUri(context,f);
+
+        // db로 전달 -> db 업로드 함수 호출
+
         if (uri != null) {
             //db add + upload
             id = ((JHJApplication)this.getActivity().getApplication()).getId();
