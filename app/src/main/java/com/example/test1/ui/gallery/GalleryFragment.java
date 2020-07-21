@@ -140,6 +140,9 @@ public class GalleryFragment extends Fragment {
         context.sendBroadcast(mediaScanIntent);
 
         Uri uri = getImageContentUri(context,f);
+
+        // db로 전달 -> db 업로드 함수 호출
+
         if (uri != null) {
 
             mArrayList.add(String.valueOf(getImageContentUri(context,f)));
