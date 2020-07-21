@@ -26,7 +26,7 @@ public class HomeFragment extends Fragment {
     int id;
     private ServiceApi service;
 
-    private ExpandableListView expandableListView;
+    private ExpandableListView listView;
 
     private ContentResolver contentResolver;
     private Context context;
@@ -45,42 +45,13 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TreeNode Root = TreeNode.root();
+        ArrayList<myGroup> DataList = new ArrayList<myGroup>();
+        listView = (ExpandableListView) root.findViewById(R.id.guestbook);
 
-        TreeNode parent = new TreeNode("MyParentNode");
-        TreeNode child0 = new TreeNode("ChildNode0");
-        TreeNode child1 = new TreeNode("ChildNode1");
-        parent.addChildren(child0, child1);
-        root.addChild(parent);
+//        myGroup temp = new myGroup(new HomepageInfo(?,?,?,?,?));
+//        temp.child.add("댓글");
 
-        AndroidTreeView tView = new AndroidTreeView(getActivity(), root);
-        containerView.addView(tView.getView());
-
-        IconTreeItem nodeItem = new IconTreeItem();
-        TreeNode child1 = new TreeNode(nodeItem).setViewHolder(new MyHolder(mContext));
-
-        TreeNode.setClickListener(new TreeNodeClickListener() {
-
-            @Override
-            public void onClick(TreeNode node, Object value) {
-                //Your Code Here//
-
-            }
-        });
-
-        LinkedHashMap<String, String[]> thirdLevelq1 = new LinkedHashMap<>();
-        LinkedHashMap<String, String[]> thirdLevelq2 = new LinkedHashMap<>();
-        LinkedHashMap<String, String[]> thirdLevelq3 = new LinkedHashMap<>();
-        /**
-         * Second level array list
-         */
-        List<String[]> secondLevel = new ArrayList<>();
-        /**
-         * Inner level data
-         */
-        List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
-
-        root.setUpAdapter();
+//        ExpandAdapter adapter = new ExpandAdapter(getApplicationContext(),R.layout.)
 
         return root;
     }

@@ -1,21 +1,13 @@
 package com.example.test1.ui.home;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.test1.R;
 
 import java.util.ArrayList;
@@ -24,10 +16,10 @@ public class HomeAdapter extends BaseExpandableListAdapter {
     private Context context;
     private int groupLayout = 0;
     private int chlidLayout = 0;
-    private ArrayList<firstGroup> DataList;
+    private ArrayList<myGroup> DataList;
     private LayoutInflater myinf = null;
 
-    public HomeAdapter(Context context,int groupLay,int chlidLay,ArrayList<firstGroup> DataList){
+    public HomeAdapter(Context context,int groupLay,int chlidLay,ArrayList<myGroup> DataList){
         this.DataList = DataList;
         this.groupLayout = groupLay;
         this.chlidLayout = chlidLay;
