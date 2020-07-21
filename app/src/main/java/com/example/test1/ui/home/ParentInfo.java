@@ -1,11 +1,20 @@
 package com.example.test1.ui.home;
 
-public class HomepageInfo {
+public class ParentInfo {
     private int b_number;
     private String b_name;
     private String timestamp;
     private String img_uri;
     private String b_content;
+    private int b_replies;
+
+    public int getB_replies() {
+        return b_replies;
+    }
+
+    public void setB_replies(int b_replies) {
+        this.b_replies = b_replies;
+    }
 
     public int getB_number() {
         return b_number;
@@ -47,15 +56,16 @@ public class HomepageInfo {
         this.b_content = b_content;
     }
 
-    public HomepageInfo(int b_number, String name, String timestamp, String img_uri, String b_content) {
+    public ParentInfo(int b_number, String name, String timestamp, String img_uri, String b_content, int b_replies) {
         this.b_number = b_number;
         this.b_name = name;
         this.timestamp = timestamp;
         this.img_uri = img_uri;
         this.b_content = b_content;
+        this.b_replies = b_replies;
     }
 
-    public HomepageInfo(int b_number, String name, String timestamp, String b_content) {
+    public ParentInfo(int b_number, String name, String timestamp, String b_content) {
         this.b_number = b_number;
         this.b_name = name;
         this.timestamp = timestamp;

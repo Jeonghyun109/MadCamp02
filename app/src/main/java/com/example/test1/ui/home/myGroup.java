@@ -1,17 +1,14 @@
 package com.example.test1.ui.home;
 
-import android.content.Context;
-import android.widget.ExpandableListView;
-
 import java.util.ArrayList;
 
 public class myGroup {
 
-    public ArrayList<String> child;
-    public HomepageInfo  parent;
+    public ArrayList<ChildInfo> child;
+    public ParentInfo parent;
 
-    myGroup(HomepageInfo profile) {
-        child = new ArrayList<String>();
+    myGroup(ParentInfo profile) {
+        child = new ArrayList<ChildInfo>();
         parent = profile;
     }
 }
