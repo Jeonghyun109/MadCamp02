@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment {
         home_message.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View view) {
-                AlertDialog.Builder chg=new AlertDialog.Builder(context);
+                AlertDialog.Builder chg=new AlertDialog.Builder(context, R.style.AlertDialog);
                 chg.setTitle("대문글");
                 chg.setMessage("바꾸기다 냥!");
 

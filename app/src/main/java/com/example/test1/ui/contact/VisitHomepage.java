@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.test1.JHJApplication;
@@ -44,6 +45,7 @@ import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.zip.DataFormatException;
 
 import retrofit2.Call;
@@ -79,8 +81,27 @@ public class VisitHomepage extends Activity {
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
 
+        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.pullToRefresh3);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        DataList.clear();
+                        ParentList.clear();
+                        ChildList.clear();
+                        showProfile(new HomeData(name));
+                        showBelow(new VisitorData(name));
+                    }
+                }
+                ).start();
+                //updateData();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
         SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
-        Calendar cal = Calendar.getInstance();
         //////////////////////////////
         showProfile(new HomeData(name));
         home_img = (ImageView)findViewById(R.id.visit_img);
@@ -112,9 +133,11 @@ public class VisitHomepage extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String time = formatter.format(cal.getTime());
                 ////////////////////////////////
-                if(content != null) addVisit(new VisitorData(name,null, content, MainActivity.name, MainActivity.id, time));
+                if(content != null) {
+                    String time = formatter.format(new Date());
+                    addVisit(new VisitorData(name,null, content, MainActivity.name, MainActivity.id, time));
+                }
                 else Toast.makeText(context, "방명록을 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -206,6 +229,8 @@ public class VisitHomepage extends Activity {
                         }
                     });
                 }
+                ParentList.clear();
+                ChildList.clear();
             }
 
             @Override

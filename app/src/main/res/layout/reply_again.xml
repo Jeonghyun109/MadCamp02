@@ -8,6 +8,7 @@
     android:layout_marginRight="40dp"
     android:scrollbars="vertical"
     android:background="@color/ivory"
+    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout

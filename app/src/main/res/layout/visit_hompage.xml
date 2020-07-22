@@ -21,7 +21,7 @@
             android:layout_height="150dp"
             android:layout_margin="10dp"
             android:focusable="true"
-            android:background="@drawable/border"/>
+            android:background="@drawable/person"/>
 
         <LinearLayout
             android:layout_width="250dp"
@@ -100,11 +100,17 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ExpandableListView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:groupIndicator="@android:color/transparent"
-        android:id="@+id/visit_guestbook" />
+        android:layout_height="wrap_content">
+
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:groupIndicator="@android:color/transparent"
+            android:id="@+id/visit_guestbook" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

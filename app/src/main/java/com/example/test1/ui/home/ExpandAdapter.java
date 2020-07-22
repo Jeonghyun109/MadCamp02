@@ -90,7 +90,7 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         parentContent.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View view) {
-                AlertDialog.Builder chg=new AlertDialog.Builder(parent.getContext());
+                AlertDialog.Builder chg=new AlertDialog.Builder(parent.getContext(), R.style.AlertDialog);
                 chg.setTitle("골라라 냥!");
                 chg.setMessage("무엇을 하겠냥?");
 
@@ -187,47 +187,60 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         childTime.setText(DataList.get(groupPosition).child.get(childPosition).getR_timestamp());
         childMessage.setText(DataList.get(groupPosition).child.get(childPosition).getR_content());
 
-        childMessage.setOnClickListener(new AdapterView.OnClickListener() {
+        childTime.setOnLongClickListener(new AdapterView.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder chg=new AlertDialog.Builder(parent.getContext());
-                chg.setTitle("골라라 냥!");
-                chg.setMessage("무엇을 하겠냥?");
-
-                chg.setNegativeButton("댓글 입력!", new DialogInterface.OnClickListener() {
+            public boolean onLongClick(View view) {
+                Log.d("aaaaaa", "aaaaa");
+                service = RetrofitClient.getClient().create(ServiceApi.class);
+                service.commDSingle(new CommData(DataList.get(groupPosition).child.get(childPosition).getR_name(), DataList.get(groupPosition).child.get(childPosition).getR_timestamp())).enqueue(new Callback<HomeResponse>() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AlertDialog.Builder add = new AlertDialog.Builder(parent.getContext());
-                        Log.d("aaaaaa", String.valueOf(add));
-                        add.setTitle("삭제!");
-                        add.setMessage("할거냥?");
+                    public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+                        Toast.makeText(context, "삭제했다 냥!", Toast.LENGTH_SHORT).show();
+                    }
 
-                        add.setNegativeButton("맞다냥!", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                service = RetrofitClient.getClient().create(ServiceApi.class);
-                                service.commDSingle(new CommData(DataList.get(groupPosition).child.get(childPosition).getR_name(), DataList.get(groupPosition).child.get(childPosition).getR_timestamp())).enqueue(new Callback<HomeResponse>() {
-                                    @Override
-                                    public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
-                                        Toast.makeText(context, "삭제했다 냥!", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<HomeResponse> call, Throwable t) {
-                                        Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
-                                    }
-                                });
-                            }
-                        });
-                        add.setPositiveButton("아니다냥!", new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        add.show();
+                    @Override
+                    public void onFailure(Call<HomeResponse> call, Throwable t) {
+                        Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
                     }
                 });
+//                AlertDialog.Builder chg=new AlertDialog.Builder(context, R.style.AlertDialog);
+//                chg.setTitle("골라라 냥!");
+//                chg.setMessage("무엇을 하겠냥?");
+//
+//                chg.setNegativeButton("댓글 입력!", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        AlertDialog.Builder add = new AlertDialog.Builder(context, R.style.AlertDialog);
+//                        add.setTitle("삭제!");
+//                        add.setMessage("할거냥?");
+//
+//                        add.setNegativeButton("맞다냥!", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                service = RetrofitClient.getClient().create(ServiceApi.class);
+//                                service.commDSingle(new CommData(DataList.get(groupPosition).child.get(childPosition).getR_name(), DataList.get(groupPosition).child.get(childPosition).getR_timestamp())).enqueue(new Callback<HomeResponse>() {
+//                                    @Override
+//                                    public void onResponse(Call<HomeResponse> call, Response<HomeResponse> response) {
+//                                        Toast.makeText(context, "삭제했다 냥!", Toast.LENGTH_SHORT).show();
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(Call<HomeResponse> call, Throwable t) {
+//                                        Log.d("ㅕㅕㅕㅕㅕㅕㅕㅕ", "이거 아니야");
+//                                    }
+//                                });
+//                            }
+//                        });
+//                        add.setPositiveButton("아니다냥!", new DialogInterface.OnClickListener(){
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                            }
+//                        });
+//                        add.create().show();
+//                    }
+//                });
+                return false;
             }
         });
 
