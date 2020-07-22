@@ -78,14 +78,14 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         TextView parentContent = (TextView)convertView.findViewById(R.id.b_content);
         TextView parentReplies = (TextView)convertView.findViewById(R.id.replies);
 
-        Log.d("kkkkkkk", String.valueOf(DataList.get(groupPosition).parent.getB_number()));
 //        parentId.setText(String.valueOf(DataList.get(groupPosition).parent.getB_number()));
         parentId.setText("No."+String.valueOf(DataList.get(groupPosition).parent.getB_cnt()));
         parentName.setText(DataList.get(groupPosition).parent.getB_Name());
         parentTime.setText(DataList.get(groupPosition).parent.getTimestamp());
         Glide.with(context).load(DataList.get(groupPosition).parent.getImg_uri()).into(parentImg);
         parentContent.setText(DataList.get(groupPosition).parent.getB_content());
-        parentReplies.setText(String.valueOf(DataList.get(groupPosition).parent.getB_replies()));
+        parentReplies.setText(String.valueOf(DataList.get(DataList.size()-groupPosition-1).parent.getB_replies()));
+        Log.d("kkkkkkk", String.valueOf(DataList.get(DataList.size()-groupPosition-1).parent.getB_replies()));
 
         parentContent.setOnLongClickListener(new View.OnLongClickListener(){
             @Override

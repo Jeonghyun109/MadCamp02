@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 ).start();
-                //updateData();
+                //updateData()
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -224,9 +224,8 @@ public class HomeFragment extends Fragment {
                             jsonParsingArr(nj, "Comment");
                             for(int j=0; j<ChildList.size(); j++){
                                 temp.child.add(ChildList.get(j));
-                                p_info.setB_replies(p_info.getB_replies()+1);
+                                p_info.setB_replies(j+1);
                             }
-
                             DataList.add(temp);
                             Log.d("이거뭔데",String.valueOf(adapter));
                             listView.setAdapter(adapter);
