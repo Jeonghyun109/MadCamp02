@@ -13,7 +13,7 @@
         android:required="true"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+ 
     <application
         android:usesCleartextTraffic="true"
         android:name=".JHJApplication"
